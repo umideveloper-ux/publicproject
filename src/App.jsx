@@ -11,13 +11,13 @@ import MagicTransition from './components/MagicTransition';
 import FloatingFeather from './components/premium/FloatingFeather';
 import MagicalFairy from './components/premium/MagicalFairy';
 import Container from './components/layout/Container';
-import { useWindowSize } from './utils/hooks';
+import { useResponsiveLayout } from './utils/hooks';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showFairy, setShowFairy] = useState(false);
   const [showTransition, setShowTransition] = useState(false);
-  const { isMobile } = useWindowSize();
+  const layout = useResponsiveLayout();
 
   const handleLoadingComplete = () => {
     setShowFairy(true);
@@ -33,25 +33,39 @@ export default function App() {
     setShowTransition(false);
   };
 
+  const mainStyle = {
+    minHeight: '100vh',
+    background: 'linear-gradient(180deg, #000000 0%, #111827 100%)',
+    color: 'white',
+  };
+
+  const contentStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: layout.getSpacing(24)
+  };
+
   return (
     <Router>
-      <div className="min-h-screen bg-black">
+      <div style={mainStyle}>
         <AnimatePresence mode="wait">
           {isLoading ? (
             <LoadingScreen key="loading" onLoadingComplete={handleLoadingComplete} />
           ) : (
-            <Container>
-              <div className={`flex flex-col gap-${isMobile ? '6' : '12'}`}>
-                <Navbar />
-                <FloatingFeather />
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/dersler" element={<Lessons />} />
-                  <Route path="/testler" element={<Tests />} />
-                  <Route path="/faq" element={<FAQ />} />
-                </Routes>
-              </div>
-            </Container>
+            <>
+              <Navbar />
+              <Container>
+                <div style={contentStyle}>
+                  <FloatingFeather />
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/dersler" element={<Lessons />} />
+                    <Route path="/testler" element={<Tests />} />
+                    <Route path="/faq" element={<FAQ />} />
+                  </Routes>
+                </div>
+              </Container>
+            </>
           )}
         </AnimatePresence>
         

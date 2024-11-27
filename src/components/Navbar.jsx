@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaCarAlt } from 'react-icons/fa';
+import { FaCarAlt, FaBars, FaTimes } from 'react-icons/fa';
+import { useResponsiveLayout } from '../utils/hooks';
+import Container from './layout/Container';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const layout = useResponsiveLayout();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,21 +19,58 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navStyle = {
+    position: 'fixed',
+    width: '100%',
+    zIndex: 50,
+    transition: 'all 0.3s ease',
+    background: isScrolled ? 'rgba(0, 0, 0, 0.8)' : 'transparent',
+    backdropFilter: isScrolled ? 'blur(12px)' : 'none',
+    padding: `${layout.getSpacing(8)}px 0`
+  };
+
+  const logoStyle = {
+    fontSize: layout.getFontSize(24),
+    letterSpacing: '0.05em'
+  };
+
+  const menuItemStyle = {
+    fontSize: layout.getFontSize(16),
+    padding: `${layout.getSpacing(8)}px ${layout.getSpacing(16)}px`
+  };
+
+  const mobileMenuStyle = {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    width: '100%',
+    background: 'rgba(0, 0, 0, 0.95)',
+    backdropFilter: 'blur(12px)',
+    padding: layout.getSpacing(16),
+    display: isMobileMenuOpen ? 'block' : 'none'
+  };
+
+  const menuItems = [
+    { to: '/', label: 'Ana Sayfa' },
+    { to: '/dersler', label: 'Dersler' },
+    { to: '/testler', label: 'Testler' },
+    { to: '/faq', label: 'SSS' }
+  ];
+
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-black/80 backdrop-blur-lg' : 'bg-transparent'
-      }`}
+      style={navStyle}
     >
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <FaCarAlt className="text-2xl text-blue-500" />
+      <Container>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: layout.getSpacing(8) }}>
+            <FaCarAlt style={{ fontSize: layout.getFontSize(24), color: '#3B82F6' }} />
             <motion.span 
-              className="font-bold text-xl text-[#4df0ff] tracking-wider"
+              style={logoStyle}
+              className="font-bold text-[#4df0ff]"
               animate={{
                 textShadow: [
                   "0 0 2px #fff, 0 0 5px #4df0ff, 0 0 8px #4df0ff",
@@ -48,69 +88,46 @@ export default function Navbar() {
           </Link>
           
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/dersler" className="text-gray-300 hover:text-white transition-colors">
-              Dersler
-            </Link>
-            <Link to="/testler" className="text-gray-300 hover:text-white transition-colors">
-              Testler
-            </Link>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-colors">
-              Üye Ol
-            </button>
+          <div className="hidden md:flex items-center" style={{ gap: layout.getSpacing(32) }}>
+            {menuItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                style={menuItemStyle}
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
           {/* Mobile Menu Button */}
           <button
+            className="md:hidden text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white p-2"
+            style={{ fontSize: layout.getFontSize(24) }}
           >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isMobileMenuOpen ? (
-                <path d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
+            {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
 
         {/* Mobile Menu */}
-        <motion.div
-          initial={false}
-          animate={{ height: isMobileMenuOpen ? 'auto' : 0, opacity: isMobileMenuOpen ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          className={`md:hidden overflow-hidden bg-black/90 backdrop-blur-lg rounded-b-lg`}
-        >
-          <div className="px-4 py-3 space-y-4">
-            <Link
-              to="/dersler"
-              className="block text-gray-300 hover:text-white transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Dersler
-            </Link>
-            <Link
-              to="/testler"
-              className="block text-gray-300 hover:text-white transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Testler
-            </Link>
-            <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-colors">
-              Üye Ol
-            </button>
+        <div style={mobileMenuStyle} className="md:hidden">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: layout.getSpacing(16) }}>
+            {menuItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                style={menuItemStyle}
+                className="text-gray-300 hover:text-white transition-colors block"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </Container>
     </motion.nav>
   );
 }
