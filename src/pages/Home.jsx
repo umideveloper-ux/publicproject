@@ -1,12 +1,17 @@
 import React from 'react';
 import Hero from '../components/Hero';
-import Features from '../components/Features';
+import PremiumTitle from '../components/premium/PremiumTitle';
+import FeatureShowcase from '../components/premium/FeatureShowcase';
+import { useWindowSize } from '../utils/hooks';
 
 export default function Home() {
+  const { isMobile } = useWindowSize();
+
   return (
-    <div className="bg-black">
+    <div className={`flex flex-col gap-${isMobile ? '6' : '12'} py-${isMobile ? '4' : '8'}`}>
       <Hero />
-      <Features />
+      <PremiumTitle />
+      <FeatureShowcase />
     </div>
   );
 }

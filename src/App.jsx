@@ -10,11 +10,14 @@ import LoadingScreen from './components/LoadingScreen';
 import MagicTransition from './components/MagicTransition';
 import FloatingFeather from './components/premium/FloatingFeather';
 import MagicalFairy from './components/premium/MagicalFairy';
+import Container from './components/layout/Container';
+import { useWindowSize } from './utils/hooks';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showFairy, setShowFairy] = useState(false);
   const [showTransition, setShowTransition] = useState(false);
+  const { isMobile } = useWindowSize();
 
   const handleLoadingComplete = () => {
     setShowFairy(true);
@@ -37,16 +40,18 @@ export default function App() {
           {isLoading ? (
             <LoadingScreen key="loading" onLoadingComplete={handleLoadingComplete} />
           ) : (
-            <>
-              <Navbar />
-              <FloatingFeather />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/dersler" element={<Lessons />} />
-                <Route path="/testler" element={<Tests />} />
-                <Route path="/faq" element={<FAQ />} />
-              </Routes>
-            </>
+            <Container>
+              <div className={`flex flex-col gap-${isMobile ? '6' : '12'}`}>
+                <Navbar />
+                <FloatingFeather />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/dersler" element={<Lessons />} />
+                  <Route path="/testler" element={<Tests />} />
+                  <Route path="/faq" element={<FAQ />} />
+                </Routes>
+              </div>
+            </Container>
           )}
         </AnimatePresence>
         
