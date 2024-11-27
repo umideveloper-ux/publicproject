@@ -1,13 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useResponsiveLayout } from '../utils/hooks';
-import PremiumTitle from './premium/PremiumTitle';
+import ThreeBackground from './3d/ThreeBackground';
 import GlowingBackground from './premium/GlowingBackground';
+import PremiumTitle from './premium/PremiumTitle';
 import FeatureShowcase from './premium/FeatureShowcase';
-import PremiumButton from './premium/PremiumButton';
 import ScrollIndicator from './premium/ScrollIndicator';
 import AIAssistant from './premium/AIAssistant';
-import ThreeBackground from './3d/ThreeBackground';
 
 export default function Hero() {
   const layout = useResponsiveLayout();
@@ -20,72 +19,75 @@ export default function Hero() {
   };
 
   const containerStyle = {
+    position: 'relative',
+    zIndex: 10,
+    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: layout.getSpacing(24),
-    padding: `${layout.getSpacing(32)}px ${layout.getSpacing(16)}px`,
-    textAlign: 'center'
+    padding: `${layout.getSpacing(24)}px ${layout.getSpacing(16)}px`,
+    gap: layout.getSpacing(24)
   };
 
-  const titleStyle = {
-    fontSize: layout.getFontSize(layout.isExtraSmall ? 32 : layout.isSmall ? 40 : 48),
-    fontWeight: 'bold',
-    background: 'linear-gradient(to right, #3B82F6, #2563EB)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    marginBottom: layout.getSpacing(16)
-  };
-
-  const subtitleStyle = {
-    fontSize: layout.getFontSize(layout.isExtraSmall ? 16 : 18),
-    color: '#94A3B8',
-    maxWidth: '800px',
-    lineHeight: 1.6
+  const contentStyle = {
+    width: '100%',
+    maxWidth: '1200px',
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: layout.getSpacing(32),
+    alignItems: 'center'
   };
 
   const buttonStyle = {
-    fontSize: layout.getFontSize(16),
-    padding: `${layout.getSpacing(12)}px ${layout.getSpacing(24)}px`,
+    fontSize: layout.getFontSize(18),
+    padding: `${layout.getSpacing(16)}px ${layout.getSpacing(32)}px`,
     borderRadius: '9999px',
     background: 'linear-gradient(to right, #3B82F6, #2563EB)',
     color: 'white',
     border: 'none',
     cursor: 'pointer',
-    transition: 'transform 0.2s ease',
-    boxShadow: '0 4px 6px rgba(59, 130, 246, 0.25)'
+    transition: 'all 0.3s ease',
+    boxShadow: '0 4px 6px rgba(59, 130, 246, 0.25)',
+    marginTop: layout.getSpacing(16),
+    marginBottom: layout.getSpacing(32),
+    width: 'fit-content'
+  };
+
+  const descriptionStyle = {
+    fontSize: layout.getFontSize(16),
+    color: '#94A3B8',
+    maxWidth: '800px',
+    textAlign: 'center',
+    lineHeight: 1.6,
+    margin: `${layout.getSpacing(16)}px auto`
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden flex flex-col">
+    <div className="relative bg-gradient-to-b from-black via-gray-900 to-black overflow-x-hidden">
       <ThreeBackground />
       <GlowingBackground />
       
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          style={containerStyle}
-        >
+      <div style={containerStyle}>
+        <div style={contentStyle}>
           <PremiumTitle />
           
-          <motion.div
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.8 }}
-            className="text-center mt-2 sm:mt-4"
+            transition={{ delay: 0.5 }}
+            style={descriptionStyle}
           >
-            <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto px-2 sm:px-4">
-              VR teknolojisi, yapay zeka destekli öğrenme ve interaktif içeriklerle
-              sürücü eğitiminde yeni bir çağ başlatıyoruz.
-            </p>
-          </motion.div>
+            VR teknolojisi, yapay zeka destekli öğrenme ve interaktif içeriklerle
+            sürücü eğitiminde yeni bir çağ başlatıyoruz.
+          </motion.p>
 
-          <FeatureShowcase />
           <motion.button
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ 
+              scale: 1.05,
+              boxShadow: '0 8px 12px rgba(59, 130, 246, 0.35)'
+            }}
             whileTap={{ scale: 0.95 }}
             style={buttonStyle}
             onClick={scrollToTop}
@@ -93,7 +95,9 @@ export default function Hero() {
           >
             Ücretsiz Başla
           </motion.button>
-        </motion.div>
+
+          <FeatureShowcase />
+        </div>
       </div>
 
       <ScrollIndicator />
