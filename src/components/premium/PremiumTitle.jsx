@@ -3,10 +3,29 @@ import { motion } from 'framer-motion';
 import { useSpring, animated } from '@react-spring/web';
 import Typewriter from 'typewriter-effect';
 import GlowEffect from './GlowEffect';
+import { useResponsiveLayout } from '../../utils/hooks';
 
 export default function PremiumTitle() {
+  const layout = useResponsiveLayout();
+
+  const containerStyle = {
+    marginTop: layout.getSpacing(80), // Navbar'ın altında kalması için margin ekliyoruz
+    textAlign: 'center',
+    padding: `${layout.getSpacing(16)}px ${layout.getSpacing(8)}px`
+  };
+
+  const titleStyle = {
+    fontSize: layout.getFontSize(layout.isExtraSmall ? 24 : layout.isSmall ? 32 : 48),
+    fontWeight: 'bold',
+    marginBottom: layout.getSpacing(16)
+  };
+
+  const subtitleStyle = {
+    minHeight: layout.getSpacing(48)
+  };
+
   return (
-    <div className="relative text-center space-y-4 sm:space-y-6 px-2 sm:px-4">
+    <div style={containerStyle}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -14,7 +33,7 @@ export default function PremiumTitle() {
         className="relative inline-block"
       >
         <motion.h1 
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-2 sm:mb-4"
+          style={titleStyle}
           animate={{
             textShadow: [
               "0 0 2px #fff, 0 0 5px #4f46e5, 0 0 8px #4f46e5",
@@ -26,11 +45,7 @@ export default function PremiumTitle() {
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          style={{
-            background: 'linear-gradient(to right, #4f46e5, #9333ea)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
+          className="bg-gradient-to-r from-[#4f46e5] to-[#9333ea] text-transparent bg-clip-text"
         >
           <Typewriter
             options={{
@@ -46,7 +61,7 @@ export default function PremiumTitle() {
         <GlowEffect />
       </motion.div>
 
-      <div className="h-12 sm:h-16 text-sm sm:text-base">
+      <div style={subtitleStyle}>
         <Typewriter
           options={{
             strings: [
@@ -59,7 +74,7 @@ export default function PremiumTitle() {
             delay: 40,
             deleteSpeed: 20,
             pauseFor: 2000,
-            wrapperClassName: 'text-blue-400 text-sm sm:text-base md:text-lg lg:text-xl'
+            wrapperClassName: `text-blue-400 text-${layout.isExtraSmall ? 'sm' : 'base'}`
           }}
         />
       </div>
