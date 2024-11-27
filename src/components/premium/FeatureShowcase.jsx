@@ -43,14 +43,14 @@ export default function FeatureShowcase() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-6xl mx-auto px-2 sm:px-4">
       {features.map((feature, index) => (
         <motion.div
           key={index}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 * index }}
-          className="relative p-6 bg-black bg-opacity-50 rounded-xl overflow-hidden group"
+          className="relative p-3 sm:p-4 md:p-6 bg-black bg-opacity-50 rounded-xl overflow-hidden group"
         >
           {/* Gradient Border */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ padding: '1px' }}>
@@ -58,12 +58,12 @@ export default function FeatureShowcase() {
           </div>
 
           {/* Content */}
-          <div className="relative flex flex-col items-center text-center space-y-4">
-            <div className={`p-3 rounded-full bg-gradient-to-r ${feature.color}`}>
-              <feature.icon className="w-6 h-6 text-white" />
+          <div className="relative flex flex-col items-center text-center space-y-2 sm:space-y-4">
+            <div className={`p-2 sm:p-3 rounded-full bg-gradient-to-r ${feature.color}`}>
+              <feature.icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
             </div>
-            <h3 className="text-xl font-semibold text-white">{feature.title}</h3>
-            <p className="text-gray-400">{feature.description}</p>
+            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white">{feature.title}</h3>
+            <p className="text-sm sm:text-base text-gray-400">{feature.description}</p>
           </div>
         </motion.div>
       ))}

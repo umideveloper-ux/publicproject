@@ -6,7 +6,7 @@ import GlowEffect from './GlowEffect';
 
 export default function PremiumTitle() {
   return (
-    <div className="relative text-center space-y-6">
+    <div className="relative text-center space-y-4 sm:space-y-6 px-2 sm:px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -14,7 +14,7 @@ export default function PremiumTitle() {
         className="relative inline-block"
       >
         <motion.h1 
-          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-2 sm:mb-4"
           animate={{
             textShadow: [
               "0 0 2px #fff, 0 0 5px #4f46e5, 0 0 8px #4f46e5",
@@ -46,7 +46,7 @@ export default function PremiumTitle() {
         <GlowEffect />
       </motion.div>
 
-      <div className="h-16">
+      <div className="h-12 sm:h-16 text-sm sm:text-base">
         <Typewriter
           options={{
             strings: [
@@ -59,7 +59,7 @@ export default function PremiumTitle() {
             delay: 40,
             deleteSpeed: 20,
             pauseFor: 2000,
-            wrapperClassName: 'text-blue-400 text-lg md:text-xl'
+            wrapperClassName: 'text-blue-400 text-sm sm:text-base md:text-lg lg:text-xl'
           }}
         />
       </div>

@@ -21,26 +21,26 @@ export default function Hero() {
       <ThreeBackground />
       <GlowingBackground />
       
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl mx-auto px-4">
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-6">
         <motion.div
           ref={ref}
-          className="space-y-6 md:space-y-8"
+          className="space-y-4 sm:space-y-6 md:space-y-8"
         >
           <PremiumTitle />
-          <FeatureShowcase />
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.8 }}
-            className="text-center"
+            className="text-center mt-2 sm:mt-4"
           >
-            <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto px-4">
+            <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto px-2 sm:px-4">
               VR teknolojisi, yapay zeka destekli öğrenme ve interaktif içeriklerle
               sürücü eğitiminde yeni bir çağ başlatıyoruz.
             </p>
           </motion.div>
 
+          <FeatureShowcase />
           <PremiumButton />
         </motion.div>
       </div>
